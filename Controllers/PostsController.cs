@@ -18,6 +18,8 @@ namespace csharp_blog_backend.Controllers
         public PostsController(BlogContext context)
         {
             _context = context;
+
+            
         }
 
         // GET: api/Posts

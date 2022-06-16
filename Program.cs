@@ -6,7 +6,17 @@ using csharp_blog_backend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+// MODIFICA AGGIUNTA PER IL CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+        });
+});
+
 
 builder.Services.AddControllers();
 
@@ -19,6 +29,8 @@ builder.Services.AddDbContext<BlogContext>(opt =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+app.UseCors(); // MODIFICA AGGIUNTA PER IL CORS
 
 app.UseHttpsRedirection();
 
