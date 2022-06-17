@@ -20,9 +20,16 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 
+
+string sConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<BlogContext>(options =>
+  options.UseSqlServer(sConnectionString));
+
+
+
 //per il context aggiungiamo
-builder.Services.AddDbContext<BlogContext>(opt =>
-    opt.UseInMemoryDatabase("posts"));
+//builder.Services.AddDbContext<BlogContext>(opt =>
+  //  opt.UseInMemoryDatabase("posts"));
 //end per il context aggiungiamo:
 
 
@@ -37,5 +44,18 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<BlogContext>();
+
+    context.Database.EnsureCreated();  //crea il Db
+
+    
+}
+
 
 app.Run();
