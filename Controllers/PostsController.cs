@@ -87,7 +87,9 @@ namespace csharp_blog_backend.Controllers
         //public async Task<ActionResult<Post>> PostPost([FromForm] Post post)
         //{
         //    //Estrazione File e salvataggio su file system.
+
         //    //Agendo su Request ci prendiamo il file e lo salviamo su file system.
+
         //    string Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Files");
         //    if (!Directory.Exists(Image))
         //        Directory.CreateDirectory(Image);
@@ -104,8 +106,11 @@ namespace csharp_blog_backend.Controllers
         //    }
         //    if (_context.posts == null)
         //        return Problem("Entity set 'BlogContext.Posts'  is null.");
+
         //    post.Image = fileNameWithPath;
+
         //    _context.posts.Add(post);
+
         //    await _context.SaveChangesAsync();
         //    return CreatedAtAction("GetPost", new { id = post.Id }, post);
         //}
