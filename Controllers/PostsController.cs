@@ -124,15 +124,15 @@ namespace csharp_blog_backend.Controllers
             // salviamo anche il file come  varBinaryMAx nel DB
             //in questa parte c'è il salvataggio a db per un file blog
 
-            // byte[] b;
+             byte[] b;
 
-            // per leggerlo in html basta usare <img src="data:image/png;base64,iVBORw0KGgoAAAANSU ...">
+             //per leggerlo in html basta usare <img src="data:image/png;base64,iVBORw0KGgoAAAANSU ...">
 
-            //using (BinaryReader br = new BinaryReader(post.File.OpenReadStream()))
+            using (BinaryReader br = new BinaryReader(post.File.OpenReadStream()))
 
-            //{ 
-            //    post.ImageBytes = br.ReadBytes((int) post.File.OpenReadStream().Length);
-            //}
+            { 
+                post.ImageBytes = br.ReadBytes((int) post.File.OpenReadStream().Length);
+            }
 
 
 
