@@ -24,6 +24,9 @@ namespace csharp_blog_backend.Models
         [NotMapped()]
         public IFormFile? File { get; set; } = null;
 
+        
+        public byte[]? ImageBytes { get; set; }
+
         public Post()
         {
 

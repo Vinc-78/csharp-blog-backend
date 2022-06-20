@@ -111,6 +111,7 @@ namespace csharp_blog_backend.Controllers
             
             string fileNameWithPath = Path.Combine(Image, fileName);
 
+                       
             using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
             {
                 post.File.CopyTo(stream);
@@ -118,6 +119,20 @@ namespace csharp_blog_backend.Controllers
 
 
             post.Image = "https://localhost:5000/Files/" + fileName;
+
+            byte[] b;
+
+            // salviamo anche il file come  varBinaryMAx nel DB
+
+            // per leggerlo in html basta usare <img src="data:image/png;base64,iVBORw0KGgoAAAANSU ...">
+
+            //using (BinaryReader br = new BinaryReader(post.File.OpenReadStream()))
+
+            //{ 
+            //    post.ImageBytes = br.ReadBytes((int) post.File.OpenReadStream().Length);
+            //}
+
+
 
             _context.posts.Add(post);
             await _context.SaveChangesAsync();
