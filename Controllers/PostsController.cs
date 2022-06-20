@@ -108,7 +108,7 @@ namespace csharp_blog_backend.Controllers
             if (!Directory.Exists(Image))
                 Directory.CreateDirectory(Image);
 
-            //string fileName = $"immagine-{post.Id}" + fileInfo.Extension;
+            
             string fileNameWithPath = Path.Combine(Image, fileName);
 
             using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
