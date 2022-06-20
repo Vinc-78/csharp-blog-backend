@@ -120,9 +120,11 @@ namespace csharp_blog_backend.Controllers
 
             post.Image = "https://localhost:5000/Files/" + fileName;
 
-            byte[] b;
 
             // salviamo anche il file come  varBinaryMAx nel DB
+            //in questa parte c'è il salvataggio a db per un file blog
+
+            // byte[] b;
 
             // per leggerlo in html basta usare <img src="data:image/png;base64,iVBORw0KGgoAAAANSU ...">
 
