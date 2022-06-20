@@ -40,6 +40,7 @@ var app = builder.Build();
 app.UseCors(); // MODIFICA AGGIUNTA PER IL CORS
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();   // permette di vedere le immagini da URL in questo caso
 
 app.UseAuthorization();
 

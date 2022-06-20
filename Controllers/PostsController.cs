@@ -37,10 +37,10 @@ namespace csharp_blog_backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
-          if (_context.posts == null)
-          {
-              return NotFound();
-          }
+            if (_context.posts == null)
+            {
+                return NotFound();
+            }
             var post = await _context.posts.FindAsync(id);
 
             if (post == null)
@@ -48,11 +48,14 @@ namespace csharp_blog_backend.Controllers
                 return NotFound();
             }
 
+           
+
             return post;
         }
 
         // PUT: api/Posts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPost(int id, Post post)
         {
@@ -82,55 +85,62 @@ namespace csharp_blog_backend.Controllers
             return NoContent();
         }
 
-        //// POST: api/Posts     questo controller funziona per la gestione del file
-        ///
-        //public async Task<ActionResult<Post>> PostPost([FromForm] Post post)
-        //{
-        //    //Estrazione File e salvataggio su file system.
+        // POST: api/Posts     questo controller funziona per la gestione del file
+        // aggiunto per gestire il passaggio di un file
+        
+        [HttpPost]
+        public async Task<ActionResult<Post>> PostPost([FromForm] Post post)
+        {
+            FileInfo fileInfo = new FileInfo(post.File.FileName);
+            post.Image = $"FileLocal{fileInfo.Extension}"; // qwuesto è quello che viene salvato nel DB
 
-        //    //Agendo su Request ci prendiamo il file e lo salviamo su file system.
+            _context.posts.Add(post);
 
-        //    string Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Files");
-        //    if (!Directory.Exists(Image))
-        //        Directory.CreateDirectory(Image);
-        //    FileInfo fileInfo = new FileInfo(post.File.FileName);
+           
 
-        //    DateTime time = DateTime.Now;
+            //Estrazione File e salvataggio su file system.
+            //Agendo su Request ci prendiamo il file e lo salviamo su file system.
 
-        //    string fileName = time + fileInfo.Extension;
+            string Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Files");
+            if (!Directory.Exists(Image))
+                Directory.CreateDirectory(Image);
 
-        //    string fileNameWithPath = Path.Combine(Image, fileName);
-        //    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-        //    {
-        //        post.File.CopyTo(stream);
-        //    }
-        //    if (_context.posts == null)
-        //        return Problem("Entity set 'BlogContext.Posts'  is null.");
+            string fileName = $"immagine-{post.Id}" + fileInfo.Extension;
+            string fileNameWithPath = Path.Combine(Image, fileName);
 
-        //    post.Image = fileNameWithPath;
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                post.File.CopyTo(stream);
+            }
 
-        //    _context.posts.Add(post);
+            if (_context.posts == null)
+                return Problem("Entity set 'BlogContext.Posts'  is null.");
 
-        //    await _context.SaveChangesAsync();
-        //    return CreatedAtAction("GetPost", new { id = post.Id }, post);
-        //}
+            post.Image = "https://localhost:5000/Files/" + fileName;
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPost", new { id = post.Id }, post);
+        }
 
 
 
         // POST: api/Posts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Post>> PostPost(Post post)
-        {
-          if (_context.posts == null)
-          {
-              return Problem("Entity set 'BlogContext.posts'  is null.");
-          }
-            _context.posts.Add(post);
-            await _context.SaveChangesAsync();
+        // Questa parte di controller gestisce il salvataggio da stringa (senza file ) 
 
-            return CreatedAtAction("GetPost", new { id = post.Id }, post);
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<Post>> PostPost(Post post)
+        //{
+        //    if (_context.posts == null)
+        //    {
+        //        return Problem("Entity set 'BlogContext.posts'  is null.");
+        //    }
+        //    _context.posts.Add(post);
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction("GetPost", new { id = post.Id }, post);
+        //}
 
         // DELETE: api/Posts/5
         [HttpDelete("{id}")]
