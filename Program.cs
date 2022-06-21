@@ -27,7 +27,7 @@ builder.Services.AddDbContext<BlogContext>(options =>
 
 
 
-//per il context aggiungiamo
+//per il context in locale aggiungiamo
 //builder.Services.AddDbContext<BlogContext>(opt =>
   //  opt.UseInMemoryDatabase("posts"));
 //end per il context aggiungiamo:

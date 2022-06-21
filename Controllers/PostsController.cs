@@ -30,7 +30,8 @@ namespace csharp_blog_backend.Controllers
           {
               return NotFound();
           }
-            if (stringa != null) { return await _context.posts.Where(m => m.Title.Contains(stringa) || m.Description.Contains(stringa)).ToListAsync(); }
+
+          if (stringa != null) { return await _context.posts.Where(m => m.Title.Contains(stringa) || m.Description.Contains(stringa)).ToListAsync(); }
 
             else { return await _context.posts.ToListAsync(); }
         }
